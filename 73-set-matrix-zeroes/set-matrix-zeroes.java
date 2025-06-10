@@ -1,29 +1,34 @@
 class Solution {
     public void setZeroes(int[][] matrix) {
-        if (matrix == null || matrix.length == 0) return;
-        
-        int rows = matrix.length;
-        int cols = matrix[0].length;
-        
-        boolean[] zeroRows = new boolean[rows];
-        boolean[] zeroCols = new boolean[cols];
-        
-        // First pass: record which rows/columns contain zeros
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                if (matrix[i][j] == 0) {
-                    zeroRows[i] = true;
-                    zeroCols[j] = true;
+        int start = matrix[0][0];
+        for(int i = 0;i < matrix.length;i++) {
+            for(int j = 0; j < matrix[0].length; j++) {
+                if(matrix[i][j] == 0) {
+                    matrix[i][0] = 0;
+                    if(j != 0)
+                    matrix[0][j] = 0;
+                    else
+                    start = 0;
                 }
             }
         }
-        
-        // Second pass: set zeros
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                if (zeroRows[i] || zeroCols[j]) {
-                    matrix[i][j] = 0;
+        for(int i = 1; i < matrix.length; i++) {
+            for(int j = 1; j < matrix[0].length; j++) {
+                if(matrix[i][j] != 0) {
+                    if(matrix[0][j] ==0 || matrix[i][0] == 0) {
+                        matrix[i][j] = 0;
+                    }
                 }
+            }
+        }
+        if(matrix[0][0] == 0) {
+            for(int j = 0;j < matrix[0].length;j++) {
+                matrix[0][j] = 0;
+            }
+        }
+        if(start == 0) {
+            for(int i = 0;i < matrix.length;i++) {
+                matrix[i][0] = 0;
             }
         }
     }
